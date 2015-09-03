@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>FHIR JSON to XML Converter</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.wst.jsdt.core.javascriptValidator</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>fhir-convert.js</name>
+			<type>1</type>
+			<location>C:/Users/212042380/workspace/FHIR/JSONtoXML/fhir-convert.js</location>
+		</link>
+		<link>
+			<name>test.html</name>
+			<type>1</type>
+			<location>C:/Users/212042380/workspace/FHIR/JSONtoXML/test.html</location>
+		</link>
+	</linkedResources>
+</projectDescription>
