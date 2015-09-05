@@ -25,6 +25,7 @@ THE SOFTWARE.
  * Usage: var c = new FHIRConverter(1);
  *        var xml = c.toXML(fhirObject); 
  */
+
 function FHIRConverter(indent) {
         this.indent = indent;
         this.xml = "";
@@ -26638,6 +26639,9 @@ this.toXML = function (
   obj // The JavaScript object to convert to an XML string
 )
 {
+  if (typeof obj == "string")
+    obj = JSON.parse(obj);
+    
   this.reset();
   this.out("<?xml version='1.0' encoding='UTF-8'?>\n");
   this.processChildren(obj, 0, null, this.getDef(obj.resourceType), obj.resourceType);
@@ -26681,9 +26685,9 @@ this.processExtra = function (obj, def, name, depth)
     this.out(" id=\"" + this.escapeAttr(obj.id) + "\"");
   
   if (needsClose)
-    out(this.pad(depth) + "</" + name + ">\n");
+    this.out(this.pad(depth) + "</" + name + ">\n");
   else
-    out("/>\n");
+    this.out("/>\n");
 };
 
 this.findElement = function(elemArray, theObj, theExtra)
@@ -26822,6 +26826,187 @@ this.pad = function (length)
 {
   if (length < 0) length = 0;
   return "                                                                                      ".substring(0,length*indent);
+};
+
+this.toJSON = function(obj) {
+  if (typeof obj == "string")
+  {
+    parser=new DOMParser();
+    obj = parser.parseFromString(obj, "text/xml").documentElement;
+  }
+  else if (!(obj instanceof Node))
+    throw "Argument is neither an XML node nor a string";
+  
+  this.reset();
+  var def = this.getDef(obj.localName);
+  this.out("{\n");
+  this.processXML(obj, "", 0, def, false);
+  this.out("}\n");
+  return this.getResult();
+};
+
+this.processXML = function(elem, context, depth, def, isMultiple)
+{
+  if (def == null)
+    throw elem.localName + " is not defined in FHIR.";
+  
+  var isResource = ("base" in def && (def.base == "DomainResource" || def.base == "Resource"));
+  var elemName = elem.localName;
+  
+  if (!isResource)
+  {
+    this.out(this.pad(depth) + "\"" + elem.localName + "\": ");
+  }
+  
+  if (isMultiple)
+  { this.out("[ \n");
+    ++ depth;
+  }
+  do
+  {
+    var comments = this.getPrecedingComments(elem);
+
+    if (this.isEmptyElem(elem))
+    { if (isMultiple)
+        this.out(this.pad(depth));
+      this.out("\"" + elem.getAttribute("value") + "\", \n");
+      
+      if (comments != null)
+      { this.out(this.pad(depth++) + "\"_" + elemName + "\": {\n");
+        this.out(this.pad(depth++) + "\"fhir_comments\": [\n");
+        for (var k in comments)
+          this.out(this.pad(depth) + JSON.stringify(comments[k]) + ", \n");
+        this.out(this.pad(--depth) + "],\n");
+        // TBD: Handle id here, and exensions?
+        this.out(this.pad(--depth) + "},\n");
+      }
+    }
+    else
+    { if (!isResource)
+      { if (isMultiple)
+          this.out(this.pad(depth));
+        this.out("{ \n");
+        depth++;
+      }
+      
+      if (comments != null)
+      { this.out(this.pad(depth++) + "\"fhir_comments\": [\n");
+        for (var k in comments)
+          this.out(this.pad(depth) + JSON.stringify(comments[k]) + ", \n");
+        this.out(this.pad(--depth) + "],\n");
+      }
+
+      var url = elem.getAttribute("url")
+      if (url != null)
+        this.out(this.pad(depth) + "\"url\":\"" + url + "\", \n");
+        
+      if (isResource)
+        this.out(this.pad(depth+1) + "\"resourceType\":\"" + elemName + "\", \n");
+        
+      var elem2 = elem.firstChild; 
+      while (elem2 != null)
+      { 
+        
+        if (elem2.nodeType == Node.ELEMENT_NODE)
+        { if (elem2.localName == "div")
+          { var serializer = new XMLSerializer();
+            var div = serializer.serializeToString(elem2);
+            this.out(this.pad(depth) + "\"div\":" + JSON.stringify(div) + ", \n");
+            elem2 = this.getNextElement(elem2);
+          }
+          else
+          { var elemDef = this.getXMLDef(def, elem2.localName);
+            elem2 = this.processXML(elem2, context + "." + elem2.localName, depth + 1, this.getDef(elemDef.type), elemDef.max != "1");
+          }
+        }
+        else
+          elem2 = this.getNextElement(elem2);        
+      }
+      
+      if (!isResource)
+        this.out(this.pad(--depth) + "}, \n");
+    }
+    elem = this.getNextElement(elem);
+  } while (isMultiple && elem != null && elemName == elem.localName);
+  
+  if (isMultiple)
+    this.out(this.pad(--depth) + "], \n");
+    
+  return elem;
+};
+
+
+this.getXMLDef = function(def, name)
+{
+  var xmlDef = null;
+  if ("base" in def)
+  {
+    xmlDef = this.getXMLDef(this.getDef(def.base), name);
+    /* If we find it in the base, return it */
+    if (xmlDef != null)
+      return xmlDef;
+  }
+  /* Either there is no base definition, or we didn't find 
+   * this element name in the base definition, so look for
+   * it in the definition.
+   */
+  for (var index in def.elems)
+  {  var elems = def.elems[index];
+     if (!(elems instanceof Array))
+       elems = [ elems ];
+     for (var index2 in elems)
+     {  elem = elems[index2];
+        if (elem.name == name)
+          return elem;
+     }
+  }
+  /* We didn't find it, just return null */
+  return null;
+}
+
+this.getNextElement = function(elem) {
+  while (elem != null)
+  { var next = elem.nextSibling; 
+    if (next == null || next.nodeType == elem.ELEMENT_NODE)
+      return next;
+    elem = next;
+  }
+  return null;
+};
+
+this.getPrecedingComments = function(elem) {
+  var out = [];
+  while (elem != null)
+  {
+    var prev = elem.previousSibling;
+    if (prev == null)
+      break;
+    if (prev.nodeType == Node.COMMENT_NODE)
+      out.push(prev.data);
+    else if (prev.nodeType == Node.ELEMENT_NODE)
+      break;
+    elem = prev;
+  }
+  return out.length == 0 ? null : out.reverse();
+}
+
+this.isEmptyElem = function(elem) {
+  return elem.firstChild == null ||                   // Has no children OR 
+    (elem.firstChild.nodeType != elem.ELEMENT_NODE && // first is not an element AND
+     this.getNextElement(elem.firstChild) == null);   // neither are any of its sibs
+};
+
+this.isSingleton = function(elem, def)
+{
+  var s = elem.localName.substring(1,1);
+  /* Resources are always singletons */
+  if (s.toLowerCase() != s)
+    return true;
+  if (this.getPreviousElementName(elem) == elem.localName)
+    return false;
+  if (this.getNextElementName(elem) == elem.localName)
+    return false;
+  return true;  // Should actually be looking at types   
 };
 }
 
