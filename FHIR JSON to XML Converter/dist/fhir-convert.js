@@ -1,30 +1,3 @@
-/***************************************************
-Copyright (c) 2015 Keith W. Boone
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
- ***************************************************/
-/*
- * Create a new FHIRConverter with the specified indent level.
- * 
- * Usage: var c = new FHIRConverter(1);
- *        var xml = c.toXML(fhirObject); 
- */
 
 function FHIRConverter(indent) {
         this.indent = indent;
@@ -41,28 +14,15 @@ function FHIRConverter(indent) {
         }
     
   this.FHIRdefs = {
-"markdown": {
-    /*A string that may contain markdown syntax for optional processing by a mark down presentation engineSystems are not required to have markdown support, and there is considerable variation in markdown syntax, so the text should be readable without markdown processing. The preferred markdown syntax is described here: http://daringfireball.net/projects/markdown/syntax (and tests here: http://daringfireball.net/projects/downloads/MarkdownTest_1.0.zip)If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
+"date": {
+    /*A date, or partial date (e.g. just year or year + month). There is no time zone. The format is a union of the schema types gYear, gYearMonth and date.                 Dates SHALL be valid dates.If the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "markdown",
+  "name": "date",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "markdown-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"integer": {
-    /*A whole number32 bit number; for values larger than this, use decimalIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "integer",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "integer-primitive" }, 
+      "type": "date-primitive" }, 
   ],
   "elems": [
   ]
@@ -80,19 +40,6 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"unsignedInt": {
-    /*An integer with a value that is not negative (e.g. >= 0)If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
-     */
-  "name": "unsignedInt",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "unsignedInt-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
 "code": {
     /*A string which has at least one character and no leading or trailing whitespace and where there is no whitespace other than single spaces in the contentsIf the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
      */
@@ -102,110 +49,6 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "code-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"date": {
-    /*A date, or partial date (e.g. just year or year + month). There is no time zone. The format is a union of the schema types gYear, gYearMonth and date.                 Dates SHALL be valid dates.If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "date",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "date-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"decimal": {
-    /*A rational number with implicit precisionDo not use a IEEE type floating point type, instead use something that works like a true decimal, with inbuilt precision (e.g. Java BigInteger)If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "decimal",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "decimal-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"uri": {
-    /*String of characters used to identify a name or a resourcesee http://en.wikipedia.org/wiki/Uniform_resource_identifierIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "uri",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "uri-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"id": {
-    /*Any combination of letters, numerals, "-" and ".", with a length limit of 64 characters.  (This might be an integer, an unprefixed OID, UUID or any other identifier pattern that meets these constraints.)  Ids are case-insensitive.RFC 4122If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
-     */
-  "name": "id",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "id-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"base64Binary": {
-    /*A stream of bytesA stream of bytes, base64 encodedIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "base64Binary",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "base64Binary-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"time": {
-    /*A time during the day, with no date specifiedIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "time",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "time-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"oid": {
-    /*An oid represented as a URIRFC 3001. See also ISO/IEC 8824:1990 €If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
-     */
-  "name": "oid",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "oid-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"positiveInt": {
-    /*An integer with a value that is positive (e.g. >0)If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
-     */
-  "name": "positiveInt",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "positiveInt-primitive" }, 
   ],
   "elems": [
   ]
@@ -223,15 +66,41 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"boolean": {
-    /*Value of "true" or "false"If the element is present, it must have either a @value, an @id, or extensions
+"integer": {
+    /*A whole number32 bit number; for values larger than this, use decimalIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "boolean",
+  "name": "integer",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "boolean-primitive" }, 
+      "type": "integer-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"oid": {
+    /*An oid represented as a URIRFC 3001. See also ISO/IEC 8824:1990 €If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
+     */
+  "name": "oid",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "oid-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"uri": {
+    /*String of characters used to identify a name or a resourcesee http://en.wikipedia.org/wiki/Uniform_resource_identifierIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "uri",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "uri-primitive" }, 
   ],
   "elems": [
   ]
@@ -258,6 +127,110 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "instant-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"boolean": {
+    /*Value of "true" or "false"If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "boolean",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "boolean-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"base64Binary": {
+    /*A stream of bytesA stream of bytes, base64 encodedIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "base64Binary",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "base64Binary-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"unsignedInt": {
+    /*An integer with a value that is not negative (e.g. >= 0)If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
+     */
+  "name": "unsignedInt",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "unsignedInt-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"markdown": {
+    /*A string that may contain markdown syntax for optional processing by a mark down presentation engineSystems are not required to have markdown support, and there is considerable variation in markdown syntax, so the text should be readable without markdown processing. The preferred markdown syntax is described here: http://daringfireball.net/projects/markdown/syntax (and tests here: http://daringfireball.net/projects/downloads/MarkdownTest_1.0.zip)If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
+     */
+  "name": "markdown",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "markdown-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"time": {
+    /*A time during the day, with no date specifiedIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "time",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "time-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"id": {
+    /*Any combination of letters, numerals, "-" and ".", with a length limit of 64 characters.  (This might be an integer, an unprefixed OID, UUID or any other identifier pattern that meets these constraints.)  Ids are case-insensitive.RFC 4122If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
+     */
+  "name": "id",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "id-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"positiveInt": {
+    /*An integer with a value that is positive (e.g. >0)If the element is present, it must have either a @value, an @id referenced from the Narrative, or extensions
+     */
+  "name": "positiveInt",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "positiveInt-primitive" }, 
+  ],
+  "elems": [
+  ]
+},
+"decimal": {
+    /*A rational number with implicit precisionDo not use a IEEE type floating point type, instead use something that works like a true decimal, with inbuilt precision (e.g. Java BigInteger)If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "decimal",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "decimal-primitive" }, 
   ],
   "elems": [
   ]
@@ -1133,30 +1106,75 @@ function FHIRConverter(indent) {
       "isPrimitive": false }, 
   ]
 },
-"Period": {
-    /*A time period defined by a start and end date and optionally time.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+"Identifier": {
+    /*A technical identifier - identifies some entity uniquely and unambiguously.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
      */
-  "name": "Period",
+  "name": "Identifier",
   "base": "Element", 
   "attrs": [
   ],
   "elems": [
     { 
-    /*The start of the period. The boundary is inclusive.
-     */  "name": "start", 
+    /*The purpose of this identifier.
+     */  "name": "use", 
     
       "min": "0", 
       "max": "1", 
-      "type": "dateTime",
+      "type": "IdentifierUse",
       "isPrimitive": true }, 
     { 
-    /*The end of the period. If the end of the period is missing, it means that the period is ongoing. The start mey be in the past, and the end date in the future, which means that period is expected/planned to end at that time.
-     */  "name": "end", 
+    /*A coded type for the identifier that can be used to determine which identifier to use for a specific purpose.
+     */  "name": "type", 
     
       "min": "0", 
       "max": "1", 
-      "type": "dateTime",
+      "type": "CodeableConcept",
+      "isPrimitive": false }, 
+    { 
+    /*Establishes the namespace in which set of possible id values is unique.
+     */  "name": "system", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "uri",
       "isPrimitive": true }, 
+    { 
+    /*The portion of the identifier typically displayed to the user and which is unique within the context of the system.
+     */  "name": "value", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Time period during which identifier is/was valid for use.
+     */  "name": "period", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "Period",
+      "isPrimitive": false }, 
+    { 
+    /*Organization that issued/manages the identifier.
+     */  "name": "assigner", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "Reference",
+      "isPrimitive": false }, 
+  ]
+},
+"IdentifierUse": {
+    /*Identifies the purpose for this identifier, if knownIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "IdentifierUse",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "IdentifierUse-list" }, 
+  ],
+  "elems": [
   ]
 },
 "Coding": {
@@ -1209,30 +1227,165 @@ function FHIRConverter(indent) {
       "isPrimitive": true }, 
   ]
 },
-"Range": {
-    /*A set of ordered Quantities defined by a low and high limit.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+"Reference": {
+    /*A reference from one resource to another.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
      */
-  "name": "Range",
+  "name": "Reference",
   "base": "Element", 
   "attrs": [
   ],
   "elems": [
     { 
-    /*The low limit. The boundary is inclusive.
-     */  "name": "low", 
+    /*A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources.
+     */  "name": "reference", 
     
       "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Plain text narrative that identifies the resource in addition to the resource reference.
+     */  "name": "display", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+  ]
+},
+"Signature": {
+    /*A digital signature along with supporting context. The signature may be electronic/cryptographic in nature, or a graphical image representing a hand-written signature, or a signature process. Different Signature approaches have different utilities.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "Signature",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*An indication of the reason that the entity signed this document. This may be explicitly included as part of the signature information and can be used when determining accountability for various actions concerning the document.
+     */  "name": "type", 
+    
+      "min": "1", 
+      "max": "unbounded", 
+      "type": "Coding",
+      "isPrimitive": false }, 
+    { 
+    /*When the digital signature was signed.
+     */  "name": "when", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "instant",
+      "isPrimitive": true }, 
+    [ /* Choice */ 
+    /*A reference to an application-usable description of the person that signed the certificate (e.g. the signature used their private key).
+     */
+        {   "name": "whoUri", 
+        
+          "min": "1", 
+          "max": "1", 
+          "type": "uri",
+          "isPrimitive": true }, 
+        {   "name": "whoReference", 
+        
+          "min": "1", 
+          "max": "1", 
+          "type": "Reference",
+          "isPrimitive": false }, 
+    ], 
+    { 
+    /*A mime type that indicates the technical format of the signature. Important mime types are application/signature+xml for X ML DigSig, application/jwt for JWT, and image/* for a graphical image of a signature.
+     */  "name": "contentType", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "code",
+      "isPrimitive": true }, 
+    { 
+    /*The base64 encoding of the Signature content.
+     */  "name": "blob", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "base64Binary",
+      "isPrimitive": true }, 
+  ]
+},
+"SampledData": {
+    /*A series of measurements taken by a device, with upper and lower limits. There may be more than one dimension in the data.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "SampledData",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*The base quantity that a measured value of zero represents. In addition, this provides the units of the entire measurement series.
+     */  "name": "origin", 
+    
+      "min": "1", 
       "max": "1", 
       "type": "SimpleQuantity",
       "isPrimitive": false }, 
     { 
-    /*The high limit. The boundary is inclusive.
-     */  "name": "high", 
+    /*The length of time between sampling times, measured in milliseconds.
+     */  "name": "period", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*A correction factor that is applied to the sampled data points before they are added to the origin.
+     */  "name": "factor", 
     
       "min": "0", 
       "max": "1", 
-      "type": "SimpleQuantity",
-      "isPrimitive": false }, 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*The lower limit of detection of the measured points. This is needed if any of the data points have the value "L" (lower than detection limit).
+     */  "name": "lowerLimit", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*The upper limit of detection of the measured points. This is needed if any of the data points have the value "U" (higher than detection limit).
+     */  "name": "upperLimit", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*The number of sample points at each time point. If this value is greater than one, then the dimensions will be interlaced - all the sample points for a point in time will be recorded at once.
+     */  "name": "dimensions", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "positiveInt",
+      "isPrimitive": true }, 
+    { 
+    /*A series of data points which are decimal values separated by a single space (character u20). The special values "E" (error), "L" (below detection limit) and "U" (above detection limit) can also be used in place of a decimal value.
+     */  "name": "data", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "SampledDataDataType",
+      "isPrimitive": true }, 
+  ]
+},
+"SampledDataDataType": {
+  "name": "SampledDataDataType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "SampledDataDataType-primitive" }, 
+  ],
+  "elems": [
   ]
 },
 "Quantity": {
@@ -1260,7 +1413,7 @@ function FHIRConverter(indent) {
       "type": "QuantityComparator",
       "isPrimitive": true }, 
     { 
-    /*A human-readable form of the units.
+    /*A human-readable form of the unit.
      */  "name": "unit", 
     
       "min": "0", 
@@ -1276,7 +1429,7 @@ function FHIRConverter(indent) {
       "type": "uri",
       "isPrimitive": true }, 
     { 
-    /*A computer processable form of the units in some unit representation system.
+    /*A computer processable form of the unit in some unit representation system.
      */  "name": "code", 
     
       "min": "0", 
@@ -1296,6 +1449,32 @@ function FHIRConverter(indent) {
       "type": "QuantityComparator-list" }, 
   ],
   "elems": [
+  ]
+},
+"Period": {
+    /*A time period defined by a start and end date and optionally time.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "Period",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*The start of the period. The boundary is inclusive.
+     */  "name": "start", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "dateTime",
+      "isPrimitive": true }, 
+    { 
+    /*The end of the period. If the end of the period is missing, it means that the period is ongoing. The start mey be in the past, and the end date in the future, which means that period is expected/planned to end at that time.
+     */  "name": "end", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "dateTime",
+      "isPrimitive": true }, 
   ]
 },
 "Attachment": {
@@ -1398,6 +1577,32 @@ function FHIRConverter(indent) {
       "isPrimitive": false }, 
   ]
 },
+"Range": {
+    /*A set of ordered Quantities defined by a low and high limit.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "Range",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*The low limit. The boundary is inclusive.
+     */  "name": "low", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "SimpleQuantity",
+      "isPrimitive": false }, 
+    { 
+    /*The high limit. The boundary is inclusive.
+     */  "name": "high", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "SimpleQuantity",
+      "isPrimitive": false }, 
+  ]
+},
 "Annotation": {
     /*A  text note which also  contains information about who made the statement and when.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
      */
@@ -1440,109 +1645,6 @@ function FHIRConverter(indent) {
       "isPrimitive": true }, 
   ]
 },
-"SampledData": {
-    /*A series of measurements taken by a device, with upper and lower limits. There may be more than one dimension in the data.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "SampledData",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*The base quantity that a measured value of zero represents. In addition, this provides the units of the entire measurement series.
-     */  "name": "origin", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "SimpleQuantity",
-      "isPrimitive": false }, 
-    { 
-    /*The length of time between sampling times, measured in milliseconds.
-     */  "name": "period", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*A correction factor that is applied to the sampled data points before they are added to the origin.
-     */  "name": "factor", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*The lower limit of detection of the measured points. This is needed if any of the data points have the value "L" (lower than detection limit).
-     */  "name": "lowerLimit", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*The upper limit of detection of the measured points. This is needed if any of the data points have the value "U" (higher than detection limit).
-     */  "name": "upperLimit", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*The number of sample points at each time point. If this value is greater than one, then the dimensions will be interlaced - all the sample points for a point in time will be recorded at once.
-     */  "name": "dimensions", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "positiveInt",
-      "isPrimitive": true }, 
-    { 
-    /*A series of data points which are decimal values separated by a single space (character u20). The special values "E" (error), "L" (below detection limit) and "U" (above detection limit) can also be used in place of a decimal value.
-     */  "name": "data", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "SampledDataDataType",
-      "isPrimitive": true }, 
-  ]
-},
-"SampledDataDataType": {
-  "name": "SampledDataDataType",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "SampledDataDataType-primitive" }, 
-  ],
-  "elems": [
-  ]
-},
-"Reference": {
-    /*A reference from one resource to another.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "Reference",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources.
-     */  "name": "reference", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Plain text narrative that identifies the resource in addition to the resource reference.
-     */  "name": "display", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-  ]
-},
 "CodeableConcept": {
     /*A concept that may be defined by a formal reference to a terminology or ontology or may be provided by text.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
      */
@@ -1566,251 +1668,6 @@ function FHIRConverter(indent) {
       "min": "0", 
       "max": "1", 
       "type": "string",
-      "isPrimitive": true }, 
-  ]
-},
-"Identifier": {
-    /*A technical identifier - identifies some entity uniquely and unambiguously.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "Identifier",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*The purpose of this identifier.
-     */  "name": "use", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "IdentifierUse",
-      "isPrimitive": true }, 
-    { 
-    /*A coded type for the identifier that can be used to determine which identifier to use for a specific purpose.
-     */  "name": "type", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "CodeableConcept",
-      "isPrimitive": false }, 
-    { 
-    /*Establishes the namespace in which set of possible id values is unique.
-     */  "name": "system", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*The portion of the identifier typically displayed to the user and which is unique within the context of the system.
-     */  "name": "value", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Time period during which identifier is/was valid for use.
-     */  "name": "period", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "Period",
-      "isPrimitive": false }, 
-    { 
-    /*Organization that issued/manages the identifier.
-     */  "name": "assigner", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "Reference",
-      "isPrimitive": false }, 
-  ]
-},
-"IdentifierUse": {
-    /*Identifies the purpose for this identifier, if knownIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "IdentifierUse",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "IdentifierUse-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"Signature": {
-    /*A digital signature along with supporting context. The signature may be electronic/cryptographic in nature, or a graphical image representing a hand-written signature, or a signature process. Different Signature approaches have different utilities.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "Signature",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*An indication of the reason that the entity signed this document. This may be explicitly included as part of the signature information and can be used when determining accountability for various actions concerning the document.
-     */  "name": "type", 
-    
-      "min": "1", 
-      "max": "unbounded", 
-      "type": "Coding",
-      "isPrimitive": false }, 
-    { 
-    /*When the digital signature was signed.
-     */  "name": "when", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "instant",
-      "isPrimitive": true }, 
-    [ /* Choice */ 
-    /*A reference to an application-usable description of the person that signed the certificate (e.g. the signature used their private key).
-     */
-        {   "name": "whoUri", 
-        
-          "min": "1", 
-          "max": "1", 
-          "type": "uri",
-          "isPrimitive": true }, 
-        {   "name": "whoReference", 
-        
-          "min": "1", 
-          "max": "1", 
-          "type": "Reference",
-          "isPrimitive": false }, 
-    ], 
-    { 
-    /*A mime type that indicates the technical format of the signature. Important mime types are application/signature+xml for X ML DigSig, application/jwt for JWT, and image/* for a graphical image of a signature.
-     */  "name": "contentType", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "code",
-      "isPrimitive": true }, 
-    { 
-    /*The base64 encoding of the Signature content.
-     */  "name": "blob", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "base64Binary",
-      "isPrimitive": true }, 
-  ]
-},
-"Age": {
-  "name": "Age",
-  "attrs": [
-    { 
-      "name": "id", 
-      "type": "id-primitive" }, 
-  ],
-  "elems": [
-    { 
-    /*Exception as inherited from Element
-     */  "name": "extension", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "Extension",
-      "isPrimitive": false }, 
-    { 
-    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
-     */  "name": "value", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
-     */  "name": "comparator", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "QuantityComparator",
-      "isPrimitive": true }, 
-    { 
-    /*A human-readable form of the units.
-     */  "name": "unit", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*The identification of the system that provides the coded form of the unit.
-     */  "name": "system", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*A computer processable form of the units in some unit representation system.
-     */  "name": "code", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "code",
-      "isPrimitive": true }, 
-  ]
-},
-"Count": {
-  "name": "Count",
-  "attrs": [
-    { 
-      "name": "id", 
-      "type": "id-primitive" }, 
-  ],
-  "elems": [
-    { 
-    /*Exception as inherited from Element
-     */  "name": "extension", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "Extension",
-      "isPrimitive": false }, 
-    { 
-    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
-     */  "name": "value", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
-     */  "name": "comparator", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "QuantityComparator",
-      "isPrimitive": true }, 
-    { 
-    /*A human-readable form of the units.
-     */  "name": "unit", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*The identification of the system that provides the coded form of the unit.
-     */  "name": "system", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*A computer processable form of the units in some unit representation system.
-     */  "name": "code", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "code",
       "isPrimitive": true }, 
   ]
 },
@@ -1847,7 +1704,7 @@ function FHIRConverter(indent) {
       "type": "QuantityComparator",
       "isPrimitive": true }, 
     { 
-    /*A human-readable form of the units.
+    /*A human-readable form of the unit.
      */  "name": "unit", 
     
       "min": "0", 
@@ -1863,123 +1720,7 @@ function FHIRConverter(indent) {
       "type": "uri",
       "isPrimitive": true }, 
     { 
-    /*A computer processable form of the units in some unit representation system.
-     */  "name": "code", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "code",
-      "isPrimitive": true }, 
-  ]
-},
-"Distance": {
-  "name": "Distance",
-  "attrs": [
-    { 
-      "name": "id", 
-      "type": "id-primitive" }, 
-  ],
-  "elems": [
-    { 
-    /*Exception as inherited from Element
-     */  "name": "extension", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "Extension",
-      "isPrimitive": false }, 
-    { 
-    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
-     */  "name": "value", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
-     */  "name": "comparator", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "QuantityComparator",
-      "isPrimitive": true }, 
-    { 
-    /*A human-readable form of the units.
-     */  "name": "unit", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*The identification of the system that provides the coded form of the unit.
-     */  "name": "system", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*A computer processable form of the units in some unit representation system.
-     */  "name": "code", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "code",
-      "isPrimitive": true }, 
-  ]
-},
-"Duration": {
-  "name": "Duration",
-  "attrs": [
-    { 
-      "name": "id", 
-      "type": "id-primitive" }, 
-  ],
-  "elems": [
-    { 
-    /*Exception as inherited from Element
-     */  "name": "extension", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "Extension",
-      "isPrimitive": false }, 
-    { 
-    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
-     */  "name": "value", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
-     */  "name": "comparator", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "QuantityComparator",
-      "isPrimitive": true }, 
-    { 
-    /*A human-readable form of the units.
-     */  "name": "unit", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*The identification of the system that provides the coded form of the unit.
-     */  "name": "system", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*A computer processable form of the units in some unit representation system.
+    /*A computer processable form of the unit in some unit representation system.
      */  "name": "code", 
     
       "min": "0", 
@@ -2021,7 +1762,7 @@ function FHIRConverter(indent) {
       "type": "QuantityComparator",
       "isPrimitive": true }, 
     { 
-    /*A human-readable form of the units.
+    /*A human-readable form of the unit.
      */  "name": "unit", 
     
       "min": "0", 
@@ -2037,13 +1778,738 @@ function FHIRConverter(indent) {
       "type": "uri",
       "isPrimitive": true }, 
     { 
-    /*A computer processable form of the units in some unit representation system.
+    /*A computer processable form of the unit in some unit representation system.
      */  "name": "code", 
     
       "min": "0", 
       "max": "1", 
       "type": "code",
       "isPrimitive": true }, 
+  ]
+},
+"Duration": {
+  "name": "Duration",
+  "attrs": [
+    { 
+      "name": "id", 
+      "type": "id-primitive" }, 
+  ],
+  "elems": [
+    { 
+    /*Exception as inherited from Element
+     */  "name": "extension", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "Extension",
+      "isPrimitive": false }, 
+    { 
+    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
+     */  "name": "value", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
+     */  "name": "comparator", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "QuantityComparator",
+      "isPrimitive": true }, 
+    { 
+    /*A human-readable form of the unit.
+     */  "name": "unit", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*The identification of the system that provides the coded form of the unit.
+     */  "name": "system", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "uri",
+      "isPrimitive": true }, 
+    { 
+    /*A computer processable form of the unit in some unit representation system.
+     */  "name": "code", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "code",
+      "isPrimitive": true }, 
+  ]
+},
+"Count": {
+  "name": "Count",
+  "attrs": [
+    { 
+      "name": "id", 
+      "type": "id-primitive" }, 
+  ],
+  "elems": [
+    { 
+    /*Exception as inherited from Element
+     */  "name": "extension", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "Extension",
+      "isPrimitive": false }, 
+    { 
+    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
+     */  "name": "value", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
+     */  "name": "comparator", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "QuantityComparator",
+      "isPrimitive": true }, 
+    { 
+    /*A human-readable form of the unit.
+     */  "name": "unit", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*The identification of the system that provides the coded form of the unit.
+     */  "name": "system", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "uri",
+      "isPrimitive": true }, 
+    { 
+    /*A computer processable form of the unit in some unit representation system.
+     */  "name": "code", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "code",
+      "isPrimitive": true }, 
+  ]
+},
+"Distance": {
+  "name": "Distance",
+  "attrs": [
+    { 
+      "name": "id", 
+      "type": "id-primitive" }, 
+  ],
+  "elems": [
+    { 
+    /*Exception as inherited from Element
+     */  "name": "extension", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "Extension",
+      "isPrimitive": false }, 
+    { 
+    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
+     */  "name": "value", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
+     */  "name": "comparator", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "QuantityComparator",
+      "isPrimitive": true }, 
+    { 
+    /*A human-readable form of the unit.
+     */  "name": "unit", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*The identification of the system that provides the coded form of the unit.
+     */  "name": "system", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "uri",
+      "isPrimitive": true }, 
+    { 
+    /*A computer processable form of the unit in some unit representation system.
+     */  "name": "code", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "code",
+      "isPrimitive": true }, 
+  ]
+},
+"Age": {
+  "name": "Age",
+  "attrs": [
+    { 
+      "name": "id", 
+      "type": "id-primitive" }, 
+  ],
+  "elems": [
+    { 
+    /*Exception as inherited from Element
+     */  "name": "extension", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "Extension",
+      "isPrimitive": false }, 
+    { 
+    /*The value of the measured amount. The value includes an implicit precision in the presentation of the value.
+     */  "name": "value", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues. E.g. if the comparator is "<" , then the real value is < stated value.
+     */  "name": "comparator", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "QuantityComparator",
+      "isPrimitive": true }, 
+    { 
+    /*A human-readable form of the unit.
+     */  "name": "unit", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*The identification of the system that provides the coded form of the unit.
+     */  "name": "system", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "uri",
+      "isPrimitive": true }, 
+    { 
+    /*A computer processable form of the unit in some unit representation system.
+     */  "name": "code", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "code",
+      "isPrimitive": true }, 
+  ]
+},
+"HumanName": {
+    /*A human's name with the ability to identify parts and usage.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "HumanName",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*Identifies the purpose for this name.
+     */  "name": "use", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "NameUse",
+      "isPrimitive": true }, 
+    { 
+    /*A full text representation of the name.
+     */  "name": "text", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*The part of a name that links to the genealogy. In some cultures (e.g. Eritrea) the family name of a son is the first name of his father.
+     */  "name": "family", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Given name.
+     */  "name": "given", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that appears at the start of the name.
+     */  "name": "prefix", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that appears at the end of the name.
+     */  "name": "suffix", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Indicates the period of time when this name was valid for the named person.
+     */  "name": "period", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "Period",
+      "isPrimitive": false }, 
+  ]
+},
+"NameUse": {
+    /*The use of a human nameIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "NameUse",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "NameUse-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ContactPoint": {
+    /*Details for All kinds of technology mediated contact points for a person or organization, including telephone, email, etc.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "ContactPoint",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*Telecommunications form for contact point - what communications system is required to make use of the contact.
+     */  "name": "system", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "ContactPointSystem",
+      "isPrimitive": true }, 
+    { 
+    /*The actual contact point details, in a form that is meaningful to the designated communication system (i.e. phone number or email address).
+     */  "name": "value", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Identifies the purpose for the contact point.
+     */  "name": "use", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "ContactPointUse",
+      "isPrimitive": true }, 
+    { 
+    /*Specifies a preferred order in which to use a set of contacts. Contacts are ranked with lower values coming before higher values.
+     */  "name": "rank", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "positiveInt",
+      "isPrimitive": true }, 
+    { 
+    /*Time period when the contact point was/is in use.
+     */  "name": "period", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "Period",
+      "isPrimitive": false }, 
+  ]
+},
+"ContactPointSystem": {
+    /*Telecommunications form for contact pointIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ContactPointSystem",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ContactPointSystem-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ContactPointUse": {
+    /*Use of contact pointIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ContactPointUse",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ContactPointUse-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"Meta": {
+    /*The metadata about a resource. This is content in the resource that is maintained by the infrastructure. Changes to the content may not always be associated with version changes to the resource.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "Meta",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*The version specific identifier, as it appears in the version portion of the url. This values changes when the resource is created, updated, or deleted.
+     */  "name": "versionId", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "id",
+      "isPrimitive": true }, 
+    { 
+    /*When the resource last changed - e.g. when the version changed.
+     */  "name": "lastUpdated", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "instant",
+      "isPrimitive": true }, 
+    { 
+    /*A list of profiles [[[StructureDefinition]]]s that this resource claims to conform to. The URL is a reference to [[[StructureDefinition.url]]].
+     */  "name": "profile", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "uri",
+      "isPrimitive": true }, 
+    { 
+    /*Security labels applied to this resource. These tags connect specific resources to the overall security policy and infrastructure.
+     */  "name": "security", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "Coding",
+      "isPrimitive": false }, 
+    { 
+    /*Tags applied to this resource. Tags are intended to to be used to identify and relate resources to process and workflow, and applications are not required to consider the tags when interpreting the meaning of a resource.
+     */  "name": "tag", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "Coding",
+      "isPrimitive": false }, 
+  ]
+},
+"Address": {
+    /*There is a variety of postal address formats defined around the world. This format defines a superset that is the basis for all addresses around the world.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "Address",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*The purpose of this address.
+     */  "name": "use", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "AddressUse",
+      "isPrimitive": true }, 
+    { 
+    /*Distinguishes between physical addresses (those you can visit) and mailing addresses (e.g. PO Boxes and care-of addresses). Most addresses are both.
+     */  "name": "type", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "AddressType",
+      "isPrimitive": true }, 
+    { 
+    /*A full text representation of the address.
+     */  "name": "text", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*This component contains the house number, apartment number, street name, street direction,  P.O. Box number, delivery hints, and similar address information.
+     */  "name": "line", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*The name of the city, town, village or other community or delivery center.
+     */  "name": "city", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*The name of the administrative area (county).
+     */  "name": "district", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Sub-unit of a country with limited sovereignty in a federally organized country. A code may be used if codes are in common use (i.e. US 2 letter state codes).
+     */  "name": "state", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*A postal code designating a region defined by the postal service.
+     */  "name": "postalCode", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Country - a nation as commonly understood or generally accepted.
+     */  "name": "country", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Time period when address was/is in use.
+     */  "name": "period", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "Period",
+      "isPrimitive": false }, 
+  ]
+},
+"AddressUse": {
+    /*The use of an addressIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "AddressUse",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "AddressUse-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"AddressType": {
+    /*The type of an address (physical / postal)If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "AddressType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "AddressType-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"Timing": {
+    /*Specifies an event that may occur multiple times. Timing schedules are used to record when things are expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "Timing",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*Identifies specific times when the event occurs.
+     */  "name": "event", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "dateTime",
+      "isPrimitive": true }, 
+    { 
+    /*A set of rules that describe when the event should occur.
+     */  "name": "repeat", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "Timing.Repeat",
+      "isPrimitive": false }, 
+    { 
+    /*A code for the timing pattern. Some codes such as BID are uniquitious, but many institutions define their own additional codes.
+     */  "name": "code", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "CodeableConcept",
+      "isPrimitive": false }, 
+  ]
+},
+"Timing.Repeat": {
+    /*Specifies an event that may occur multiple times. Timing schedules are used to record when things are expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "Timing.Repeat",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    [ /* Choice */ 
+    /*Either a duration for the length of the timing schedule, a range of possible length, or outer bounds for start and/or end limits of the timing schedule.
+     */
+        {   "name": "boundsQuantity", 
+        
+          "min": "1", 
+          "max": "1", 
+          "type": "Duration",
+          "isPrimitive": false }, 
+        {   "name": "boundsRange", 
+        
+          "min": "1", 
+          "max": "1", 
+          "type": "Range",
+          "isPrimitive": false }, 
+        {   "name": "boundsPeriod", 
+        
+          "min": "1", 
+          "max": "1", 
+          "type": "Period",
+          "isPrimitive": false }, 
+    ], 
+    { 
+    /*A total count of the desired number of repetitions.
+     */  "name": "count", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "integer",
+      "isPrimitive": true }, 
+    { 
+    /*How long this thing happens for when it happens.
+     */  "name": "duration", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*The upper limit of how long this thing happens for when it happens.
+     */  "name": "durationMax", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*The units of time for the duration, in UCUM units.
+     */  "name": "durationUnits", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "UnitsOfTime",
+      "isPrimitive": true }, 
+    { 
+    /*The number of times to repeat the action within the specified period / period range (i.e. both period and periodMax provided).
+     */  "name": "frequency", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "integer",
+      "isPrimitive": true }, 
+    { 
+    /*If present, indicates that the frequency is a range - so repeat between [frequency] and [frequencyMax] times within the period or period range.
+     */  "name": "frequencyMax", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "integer",
+      "isPrimitive": true }, 
+    { 
+    /*Indicates the duration of time over which repetitions are to occur.  E.g. to express "3 times per day", 3 would be the frequency and "1 day" would be the period.
+     */  "name": "period", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*If present, indicates that the period is a range from [period] to [periodMax], allowing expressing concepts such as "do this once every 3-5 days.
+     */  "name": "periodMax", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "decimal",
+      "isPrimitive": true }, 
+    { 
+    /*The units of time for the period in UCUM units.
+     */  "name": "periodUnits", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "UnitsOfTime",
+      "isPrimitive": true }, 
+    { 
+    /*A real world event that the occurrence of the event should be tied to.
+     */  "name": "when", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "EventTiming",
+      "isPrimitive": true }, 
+  ]
+},
+"UnitsOfTime": {
+    /*A unit of time (units from UCUM)If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "UnitsOfTime",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "UnitsOfTime-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"EventTiming": {
+    /*Real world event that the schedule relates toIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "EventTiming",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "EventTiming-list" }, 
+  ],
+  "elems": [
   ]
 },
 "ElementDefinition": {
@@ -3504,6 +3970,56 @@ function FHIRConverter(indent) {
       "isPrimitive": false }, 
   ]
 },
+"ElementDefinition.Constraint": {
+    /*Captures constraints on each element within the resource, profile, or extension.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "ElementDefinition.Constraint",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*Allows identification of which elements have their cardinalities impacted by the constraint.  Will not be referenced for constraints that do not affect cardinality.
+     */  "name": "key", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "id",
+      "isPrimitive": true }, 
+    { 
+    /*Description of why this constraint is necessary or appropriate.
+     */  "name": "requirements", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Identifies the impact constraint violation has on the conformance of the instance.
+     */  "name": "severity", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "ConstraintSeverity",
+      "isPrimitive": true }, 
+    { 
+    /*Text that can be used to describe the constraint in messages identifying that the constraint has been violated.
+     */  "name": "human", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*An XPath expression of constraint that can be executed to see if this constraint is met.
+     */  "name": "xpath", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+  ]
+},
 "ElementDefinition.Mapping": {
     /*Captures constraints on each element within the resource, profile, or extension.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
      */
@@ -3535,6 +4051,74 @@ function FHIRConverter(indent) {
       "min": "1", 
       "max": "1", 
       "type": "string",
+      "isPrimitive": true }, 
+  ]
+},
+"ElementDefinition.Base": {
+    /*Captures constraints on each element within the resource, profile, or extension.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "ElementDefinition.Base",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*The Path that identifies the base element - this matches the ElementDefinition.path for that element. Across FHIR, there is only one base definition of any element - that is, an element definition on a [[[StructureDefinition]]] without a StructureDefinition.base.
+     */  "name": "path", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+    { 
+    /*Minimum cardinality of the base element identified by the path.
+     */  "name": "min", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "integer",
+      "isPrimitive": true }, 
+    { 
+    /*Maximum cardinality of the base element identified by the path.
+     */  "name": "max", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "string",
+      "isPrimitive": true }, 
+  ]
+},
+"ElementDefinition.Type": {
+    /*Captures constraints on each element within the resource, profile, or extension.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
+     */
+  "name": "ElementDefinition.Type",
+  "base": "Element", 
+  "attrs": [
+  ],
+  "elems": [
+    { 
+    /*Name of Data type or Resource that is a(or the) type used for this element.
+     */  "name": "code", 
+    
+      "min": "1", 
+      "max": "1", 
+      "type": "code",
+      "isPrimitive": true }, 
+    { 
+    /*Identifies a profile structure or implementation Guide that SHALL hold for resources or datatypes referenced as the type of this element. Can be a local reference - to another structure in this profile, or a reference to a structure in another profile. When more than one profile is specified, the content must conform to all of them. When an implementation guide is specified, the resource SHALL conform to at least one profile defined in the implementation guide.
+     */  "name": "profile", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "uri",
+      "isPrimitive": true }, 
+    { 
+    /*If the type is a reference to another resource, how the resource is or can be aggreated - is it a contained resource, or a reference, and if the context is a bundle, is it included in the bundle.
+     */  "name": "aggregation", 
+    
+      "min": "0", 
+      "max": "unbounded", 
+      "type": "AggregationMode",
       "isPrimitive": true }, 
   ]
 },
@@ -3622,124 +4206,6 @@ function FHIRConverter(indent) {
     ], 
   ]
 },
-"ElementDefinition.Type": {
-    /*Captures constraints on each element within the resource, profile, or extension.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "ElementDefinition.Type",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*Name of Data type or Resource that is a(or the) type used for this element.
-     */  "name": "code", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "code",
-      "isPrimitive": true }, 
-    { 
-    /*Identifies a profile structure or implementation Guide that SHALL hold for resources or datatypes referenced as the type of this element. Can be a local reference - to another structure in this profile, or a reference to a structure in another profile. When more than one profile is specified, the content must conform to all of them. When an implementation guide is specified, the resource SHALL conform to at least one profile defined in the implementation guide.
-     */  "name": "profile", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*If the type is a reference to another resource, how the resource is or can be aggreated - is it a contained resource, or a reference, and if the context is a bundle, is it included in the bundle.
-     */  "name": "aggregation", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "AggregationMode",
-      "isPrimitive": true }, 
-  ]
-},
-"ElementDefinition.Base": {
-    /*Captures constraints on each element within the resource, profile, or extension.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "ElementDefinition.Base",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*The Path that identifies the base element - this matches the ElementDefinition.path for that element. Across FHIR, there is only one base definition of any element - that is, an element definition on a [[[StructureDefinition]]] without a StructureDefinition.base.
-     */  "name": "path", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Minimum cardinality of the base element identified by the path.
-     */  "name": "min", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "integer",
-      "isPrimitive": true }, 
-    { 
-    /*Maximum cardinality of the base element identified by the path.
-     */  "name": "max", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-  ]
-},
-"ElementDefinition.Constraint": {
-    /*Captures constraints on each element within the resource, profile, or extension.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "ElementDefinition.Constraint",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*Allows identification of which elements have their cardinalities impacted by the constraint.  Will not be referenced for constraints that do not affect cardinality.
-     */  "name": "key", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "id",
-      "isPrimitive": true }, 
-    { 
-    /*Description of why this constraint is necessary or appropriate.
-     */  "name": "requirements", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Identifies the impact constraint violation has on the conformance of the instance.
-     */  "name": "severity", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "ConstraintSeverity",
-      "isPrimitive": true }, 
-    { 
-    /*Text that can be used to describe the constraint in messages identifying that the constraint has been violated.
-     */  "name": "human", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*An XPath expression of constraint that can be executed to see if this constraint is met.
-     */  "name": "xpath", 
-    
-      "min": "1", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-  ]
-},
 "PropertyRepresentation": {
     /*How a property is represented on the wireIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -3749,6 +4215,32 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "PropertyRepresentation-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ConstraintSeverity": {
+    /*SHALL applications comply with this constraint?If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ConstraintSeverity",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ConstraintSeverity-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"AggregationMode": {
+    /*How resource references can be aggregatedIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "AggregationMode",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "AggregationMode-list" }, 
   ],
   "elems": [
   ]
@@ -3777,566 +4269,6 @@ function FHIRConverter(indent) {
       "type": "BindingStrength-list" }, 
   ],
   "elems": [
-  ]
-},
-"AggregationMode": {
-    /*How resource references can be aggregatedIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "AggregationMode",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "AggregationMode-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"ConstraintSeverity": {
-    /*SHALL applications comply with this constraint?If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ConstraintSeverity",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "ConstraintSeverity-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"Timing": {
-    /*Specifies an event that may occur multiple times. Timing schedules are used to record when things are expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "Timing",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*Identifies specific times when the event occurs.
-     */  "name": "event", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "dateTime",
-      "isPrimitive": true }, 
-    { 
-    /*A set of rules that describe when the event should occur.
-     */  "name": "repeat", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "Timing.Repeat",
-      "isPrimitive": false }, 
-    { 
-    /*A code for the timing pattern. Some codes such as BID are uniquitious, but many institutions define their own additional codes.
-     */  "name": "code", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "CodeableConcept",
-      "isPrimitive": false }, 
-  ]
-},
-"Timing.Repeat": {
-    /*Specifies an event that may occur multiple times. Timing schedules are used to record when things are expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "Timing.Repeat",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    [ /* Choice */ 
-    /*Either a duration for the length of the timing schedule, a range of possible length, or outer bounds for start and/or end limits of the timing schedule.
-     */
-        {   "name": "boundsQuantity", 
-        
-          "min": "1", 
-          "max": "1", 
-          "type": "Duration",
-          "isPrimitive": false }, 
-        {   "name": "boundsRange", 
-        
-          "min": "1", 
-          "max": "1", 
-          "type": "Range",
-          "isPrimitive": false }, 
-        {   "name": "boundsPeriod", 
-        
-          "min": "1", 
-          "max": "1", 
-          "type": "Period",
-          "isPrimitive": false }, 
-    ], 
-    { 
-    /*A total count of the desired number of repetitions.
-     */  "name": "count", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "integer",
-      "isPrimitive": true }, 
-    { 
-    /*How long this thing happens for when it happens.
-     */  "name": "duration", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*The upper limit of how long this thing happens for when it happens.
-     */  "name": "durationMax", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*The units of time for the duration, in UCUM units.
-     */  "name": "durationUnits", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "UnitsOfTime",
-      "isPrimitive": true }, 
-    { 
-    /*The number of times to repeat the action within the specified period / period range (i.e. both period and periodMax provided).
-     */  "name": "frequency", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "integer",
-      "isPrimitive": true }, 
-    { 
-    /*If present, indicates that the frequency is a range - so repeat between [frequency] and [frequencyMax] times within the period or period range.
-     */  "name": "frequencyMax", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "integer",
-      "isPrimitive": true }, 
-    { 
-    /*Indicates the duration of time over which repetitions are to occur.  E.g. to express "3 times per day", 3 would be the frequency and "1 day" would be the period.
-     */  "name": "period", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*If present, indicates that the period is a range from [period] to [periodMax], allowing expressing concepts such as "do this once every 3-5 days.
-     */  "name": "periodMax", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "decimal",
-      "isPrimitive": true }, 
-    { 
-    /*The units of time for the period in UCUM units.
-     */  "name": "periodUnits", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "UnitsOfTime",
-      "isPrimitive": true }, 
-    { 
-    /*A real world event that the occurrence of the event should be tied to.
-     */  "name": "when", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "EventTiming",
-      "isPrimitive": true }, 
-  ]
-},
-"UnitsOfTime": {
-    /*A unit of time (units from UCUM)If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "UnitsOfTime",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "UnitsOfTime-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"EventTiming": {
-    /*Real world event that the schedule relates toIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "EventTiming",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "EventTiming-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"Address": {
-    /*There is a variety of postal address formats defined around the world. This format defines a superset that is the basis for all addresses around the world.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "Address",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*The purpose of this address.
-     */  "name": "use", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "AddressUse",
-      "isPrimitive": true }, 
-    { 
-    /*Distinguishes between physical addresses (those you can visit) and mailing addresses (e.g. PO Boxes and care-of addresses). Most addresses are both.
-     */  "name": "type", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "AddressType",
-      "isPrimitive": true }, 
-    { 
-    /*A full text representation of the address.
-     */  "name": "text", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*This component contains the house number, apartment number, street name, street direction,  P.O. Box number, delivery hints, and similar address information.
-     */  "name": "line", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*The name of the city, town, village or other community or delivery center.
-     */  "name": "city", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*The name of the administrative area (county).
-     */  "name": "district", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Sub-unit of a country with limited sovereignty in a federally organized country. A code may be used if codes are in common use (i.e. US 2 letter state codes).
-     */  "name": "state", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*A postal code designating a region defined by the postal service.
-     */  "name": "postalCode", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Country - a nation as commonly understood or generally accepted.
-     */  "name": "country", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Time period when address was/is in use.
-     */  "name": "period", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "Period",
-      "isPrimitive": false }, 
-  ]
-},
-"AddressUse": {
-    /*The use of an addressIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "AddressUse",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "AddressUse-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"AddressType": {
-    /*The type of an address (physical / postal)If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "AddressType",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "AddressType-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"HumanName": {
-    /*A human's name with the ability to identify parts and usage.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "HumanName",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*Identifies the purpose for this name.
-     */  "name": "use", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "NameUse",
-      "isPrimitive": true }, 
-    { 
-    /*A full text representation of the name.
-     */  "name": "text", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*The part of a name that links to the genealogy. In some cultures (e.g. Eritrea) the family name of a son is the first name of his father.
-     */  "name": "family", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Given name.
-     */  "name": "given", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that appears at the start of the name.
-     */  "name": "prefix", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that appears at the end of the name.
-     */  "name": "suffix", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Indicates the period of time when this name was valid for the named person.
-     */  "name": "period", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "Period",
-      "isPrimitive": false }, 
-  ]
-},
-"NameUse": {
-    /*The use of a human nameIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "NameUse",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "NameUse-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"Meta": {
-    /*The metadata about a resource. This is content in the resource that is maintained by the infrastructure. Changes to the content may not always be associated with version changes to the resource.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "Meta",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*The version specific identifier, as it appears in the version portion of the url. This values changes when the resource is created, updated, or deleted.
-     */  "name": "versionId", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "id",
-      "isPrimitive": true }, 
-    { 
-    /*When the resource last changed - e.g. when the version changed.
-     */  "name": "lastUpdated", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "instant",
-      "isPrimitive": true }, 
-    { 
-    /*A list of profiles [[[StructureDefinition]]]s that this resource claims to conform to. The URL is a reference to [[[StructureDefinition.url]]].
-     */  "name": "profile", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*Security labels applied to this resource. These tags connect specific resources to the overall security policy and infrastructure.
-     */  "name": "security", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "Coding",
-      "isPrimitive": false }, 
-    { 
-    /*Tags applied to this resource. Tags are intended to to be used to identify and relate resources to process and workflow, and applications are not required to consider the tags when interpreting the meaning of a resource.
-     */  "name": "tag", 
-    
-      "min": "0", 
-      "max": "unbounded", 
-      "type": "Coding",
-      "isPrimitive": false }, 
-  ]
-},
-"ContactPoint": {
-    /*Details for All kinds of technology mediated contact points for a person or organization, including telephone, email, etc.If the element is present, it must have a value for at least one of the defined elements, an @id referenced from the Narrative, or extensions
-     */
-  "name": "ContactPoint",
-  "base": "Element", 
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*Telecommunications form for contact point - what communications system is required to make use of the contact.
-     */  "name": "system", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "ContactPointSystem",
-      "isPrimitive": true }, 
-    { 
-    /*The actual contact point details, in a form that is meaningful to the designated communication system (i.e. phone number or email address).
-     */  "name": "value", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "string",
-      "isPrimitive": true }, 
-    { 
-    /*Identifies the purpose for the contact point.
-     */  "name": "use", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "ContactPointUse",
-      "isPrimitive": true }, 
-    { 
-    /*Specifies a preferred order in which to use a set of contacts. Contacts are ranked with lower values coming before higher values.
-     */  "name": "rank", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "positiveInt",
-      "isPrimitive": true }, 
-    { 
-    /*Time period when the contact point was/is in use.
-     */  "name": "period", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "Period",
-      "isPrimitive": false }, 
-  ]
-},
-"ContactPointSystem": {
-    /*Telecommunications form for contact pointIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ContactPointSystem",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "ContactPointSystem-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"ContactPointUse": {
-    /*Use of contact pointIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ContactPointUse",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "ContactPointUse-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"Resource": {
-    /*Base Resource for everything.
-     */
-  "name": "Resource",
-  "attrs": [
-  ],
-  "elems": [
-    { 
-    /*The logical id of the resource, as used in the url for the resource. Once assigned, this value never changes.
-     */  "name": "id", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "id",
-      "isPrimitive": true }, 
-    { 
-    /*The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content may not always be associated with version changes to the resource.
-     */  "name": "meta", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "Meta",
-      "isPrimitive": false }, 
-    { 
-    /*A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content.
-     */  "name": "implicitRules", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "uri",
-      "isPrimitive": true }, 
-    { 
-    /*The base language in which the resource is written.
-     */  "name": "language", 
-    
-      "min": "0", 
-      "max": "1", 
-      "type": "code",
-      "isPrimitive": true }, 
   ]
 },
 "DomainResource": {
@@ -4381,56 +4313,45 @@ function FHIRConverter(indent) {
       "isPrimitive": false }, 
   ]
 },
-"NoteType": {
-    /*If the element is present, it must have either a @value, an @id, or extensions
+"Resource": {
+    /*Base Resource for everything.
      */
-  "name": "NoteType",
-  "base": "Element", 
+  "name": "Resource",
   "attrs": [
-    { 
-      "name": "value", 
-      "type": "NoteType-list" }, 
   ],
   "elems": [
-  ]
-},
-"DocumentReferenceStatus": {
-    /*If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "DocumentReferenceStatus",
-  "base": "Element", 
-  "attrs": [
     { 
-      "name": "value", 
-      "type": "DocumentReferenceStatus-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"ConceptMapEquivalence": {
-    /*If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ConceptMapEquivalence",
-  "base": "Element", 
-  "attrs": [
+    /*The logical id of the resource, as used in the url for the resource. Once assigned, this value never changes.
+     */  "name": "id", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "id",
+      "isPrimitive": true }, 
     { 
-      "name": "value", 
-      "type": "ConceptMapEquivalence-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"RemittanceOutcome": {
-    /*If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "RemittanceOutcome",
-  "base": "Element", 
-  "attrs": [
+    /*The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content may not always be associated with version changes to the resource.
+     */  "name": "meta", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "Meta",
+      "isPrimitive": false }, 
     { 
-      "name": "value", 
-      "type": "RemittanceOutcome-list" }, 
-  ],
-  "elems": [
+    /*A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content.
+     */  "name": "implicitRules", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "uri",
+      "isPrimitive": true }, 
+    { 
+    /*The base language in which the resource is written.
+     */  "name": "language", 
+    
+      "min": "0", 
+      "max": "1", 
+      "type": "code",
+      "isPrimitive": true }, 
   ]
 },
 "ConformanceResourceStatus": {
@@ -4442,6 +4363,19 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "ConformanceResourceStatus-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"SearchParamType": {
+    /*If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "SearchParamType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "SearchParamType-list" }, 
   ],
   "elems": [
   ]
@@ -4459,15 +4393,54 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"SearchParamType": {
+"RemittanceOutcome": {
     /*If the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "SearchParamType",
+  "name": "RemittanceOutcome",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "SearchParamType-list" }, 
+      "type": "RemittanceOutcome-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"NoteType": {
+    /*If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "NoteType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "NoteType-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ConceptMapEquivalence": {
+    /*If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ConceptMapEquivalence",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ConceptMapEquivalence-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"DocumentReferenceStatus": {
+    /*If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "DocumentReferenceStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "DocumentReferenceStatus-list" }, 
   ],
   "elems": [
   ]
@@ -4779,15 +4752,28 @@ function FHIRConverter(indent) {
       "isPrimitive": false }, 
   ]
 },
-"AllergyIntoleranceCertainty": {
-    /*Statement about the degree of clinical certainty that a Specific Substance was the cause of the Manifestation in an reaction eventIf the element is present, it must have either a @value, an @id, or extensions
+"AllergyIntoleranceCriticality": {
+    /*Estimate of the potential clinical harm, or seriousness, of a reaction to an identified SubstanceIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "AllergyIntoleranceCertainty",
+  "name": "AllergyIntoleranceCriticality",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "AllergyIntoleranceCertainty-list" }, 
+      "type": "AllergyIntoleranceCriticality-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"AllergyIntoleranceStatus": {
+    /*Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified SubstanceIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "AllergyIntoleranceStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "AllergyIntoleranceStatus-list" }, 
   ],
   "elems": [
   ]
@@ -4805,32 +4791,6 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"AllergyIntoleranceSeverity": {
-    /*Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestationsIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "AllergyIntoleranceSeverity",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "AllergyIntoleranceSeverity-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"AllergyIntoleranceCriticality": {
-    /*Estimate of the potential clinical harm, or seriousness, of a reaction to an identified SubstanceIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "AllergyIntoleranceCriticality",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "AllergyIntoleranceCriticality-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "AllergyIntoleranceCategory": {
     /*Category of an identified SubstanceIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -4844,15 +4804,28 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"AllergyIntoleranceStatus": {
-    /*Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified SubstanceIf the element is present, it must have either a @value, an @id, or extensions
+"AllergyIntoleranceCertainty": {
+    /*Statement about the degree of clinical certainty that a Specific Substance was the cause of the Manifestation in an reaction eventIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "AllergyIntoleranceStatus",
+  "name": "AllergyIntoleranceCertainty",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "AllergyIntoleranceStatus-list" }, 
+      "type": "AllergyIntoleranceCertainty-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"AllergyIntoleranceSeverity": {
+    /*Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestationsIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "AllergyIntoleranceSeverity",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "AllergyIntoleranceSeverity-list" }, 
   ],
   "elems": [
   ]
@@ -5513,19 +5486,6 @@ function FHIRConverter(indent) {
       "isPrimitive": true }, 
   ]
 },
-"AuditEventAction": {
-    /*Indicator for type of action performed during the event that generated the audit.If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "AuditEventAction",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "AuditEventAction-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "AuditEventOutcome": {
     /*Indicates whether the event succeeded or failedIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -5535,6 +5495,19 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "AuditEventOutcome-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"AuditEventAction": {
+    /*Indicator for type of action performed during the event that generated the audit.If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "AuditEventAction",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "AuditEventAction-list" }, 
   ],
   "elems": [
   ]
@@ -5959,19 +5932,6 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"SearchEntryMode": {
-    /*Why an entry is in the result set - whether it's included as a match or because of an _include requirementIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "SearchEntryMode",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "SearchEntryMode-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "BundleType": {
     /*Indicates the purpose of a bundle- how it was intended to be usedIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -5981,6 +5941,19 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "BundleType-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"SearchEntryMode": {
+    /*Why an entry is in the result set - whether it's included as a match or because of an _include requirementIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "SearchEntryMode",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "SearchEntryMode-list" }, 
   ],
   "elems": [
   ]
@@ -6369,19 +6342,6 @@ function FHIRConverter(indent) {
       "isPrimitive": true }, 
   ]
 },
-"CarePlanStatus": {
-    /*Indicates whether the plan is currently being acted upon, represents future intentions or is now just historical record.If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "CarePlanStatus",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "CarePlanStatus-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "CarePlanRelationship": {
     /*Codes identifying the types of relationships between two plans.If the element is present, it must have either a @value, an @id, or extensions
      */
@@ -6391,6 +6351,19 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "CarePlanRelationship-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"CarePlanStatus": {
+    /*Indicates whether the plan is currently being acted upon, represents future intentions or is now just historical record.If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "CarePlanStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "CarePlanStatus-list" }, 
   ],
   "elems": [
   ]
@@ -7178,19 +7151,6 @@ function FHIRConverter(indent) {
       "isPrimitive": true }, 
   ]
 },
-"ClaimType": {
-    /*The type or discipline-style of the claimIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ClaimType",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "ClaimType-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "Use": {
     /*Complete, proposed, exploratory, otherIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -7200,6 +7160,19 @@ function FHIRConverter(indent) {
     { 
       "name": "value", 
       "type": "Use-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ClaimType": {
+    /*The type or discipline-style of the claimIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ClaimType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ClaimType-list" }, 
   ],
   "elems": [
   ]
@@ -10204,32 +10177,6 @@ function FHIRConverter(indent) {
       "isPrimitive": false }, 
   ]
 },
-"DocumentMode": {
-    /*Whether the application produces or consumes documentsIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "DocumentMode",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "DocumentMode-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"SystemRestfulInteraction": {
-    /*Operations supported by REST at the system levelIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "SystemRestfulInteraction",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "SystemRestfulInteraction-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "ResourceVersionPolicy": {
     /*How the system supports versioning for a resourceIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -10243,41 +10190,41 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"RestfulConformanceMode": {
-    /*The mode of a RESTful conformance statementIf the element is present, it must have either a @value, an @id, or extensions
+"MessageSignificanceCategory": {
+    /*The impact of the content of a messageIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "RestfulConformanceMode",
+  "name": "MessageSignificanceCategory",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "RestfulConformanceMode-list" }, 
+      "type": "MessageSignificanceCategory-list" }, 
   ],
   "elems": [
   ]
 },
-"TypeRestfulInteraction": {
-    /*Operations supported by REST at the type or instance levelIf the element is present, it must have either a @value, an @id, or extensions
+"TransactionMode": {
+    /*A code that indicates how transactions are supportedIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "TypeRestfulInteraction",
+  "name": "TransactionMode",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "TypeRestfulInteraction-list" }, 
+      "type": "TransactionMode-list" }, 
   ],
   "elems": [
   ]
 },
-"ConditionalDeleteStatus": {
-    /*A code that indicates how the server supports conditional deleteIf the element is present, it must have either a @value, an @id, or extensions
+"DocumentMode": {
+    /*Whether the application produces or consumes documentsIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "ConditionalDeleteStatus",
+  "name": "DocumentMode",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "ConditionalDeleteStatus-list" }, 
+      "type": "DocumentMode-list" }, 
   ],
   "elems": [
   ]
@@ -10308,32 +10255,6 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"ConformanceEventMode": {
-    /*The mode of a message conformance statementIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ConformanceEventMode",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "ConformanceEventMode-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"MessageSignificanceCategory": {
-    /*The impact of the content of a messageIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "MessageSignificanceCategory",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "MessageSignificanceCategory-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "UnknownContentCode": {
     /*A code that indicates whether an application accepts unknown elements or extensions when reading resourcesIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -10347,15 +10268,67 @@ function FHIRConverter(indent) {
   "elems": [
   ]
 },
-"TransactionMode": {
-    /*A code that indicates how transactions are supportedIf the element is present, it must have either a @value, an @id, or extensions
+"TypeRestfulInteraction": {
+    /*Operations supported by REST at the type or instance levelIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "TransactionMode",
+  "name": "TypeRestfulInteraction",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "TransactionMode-list" }, 
+      "type": "TypeRestfulInteraction-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ConformanceEventMode": {
+    /*The mode of a message conformance statementIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ConformanceEventMode",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ConformanceEventMode-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"SystemRestfulInteraction": {
+    /*Operations supported by REST at the system levelIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "SystemRestfulInteraction",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "SystemRestfulInteraction-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"RestfulConformanceMode": {
+    /*The mode of a RESTful conformance statementIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "RestfulConformanceMode",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "RestfulConformanceMode-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ConditionalDeleteStatus": {
+    /*A code that indicates how the server supports conditional deleteIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ConditionalDeleteStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ConditionalDeleteStatus-list" }, 
   ],
   "elems": [
   ]
@@ -11834,6 +11807,19 @@ The update period may be different than the measurement repetition time, if the 
       "isPrimitive": true }, 
   ]
 },
+"DeviceMetricCalibrationType": {
+    /*Describes the type of a metric calibrationIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "DeviceMetricCalibrationType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "DeviceMetricCalibrationType-list" }, 
+  ],
+  "elems": [
+  ]
+},
 "DeviceMetricColor": {
     /*Describes the typical color of representationIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -11860,15 +11846,15 @@ The update period may be different than the measurement repetition time, if the 
   "elems": [
   ]
 },
-"DeviceMetricCalibrationType": {
-    /*Describes the type of a metric calibrationIf the element is present, it must have either a @value, an @id, or extensions
+"DeviceMetricOperationalStatus": {
+    /*Describes the operational status of the DeviceMetricIf the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "DeviceMetricCalibrationType",
+  "name": "DeviceMetricOperationalStatus",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "DeviceMetricCalibrationType-list" }, 
+      "type": "DeviceMetricOperationalStatus-list" }, 
   ],
   "elems": [
   ]
@@ -11882,19 +11868,6 @@ The update period may be different than the measurement repetition time, if the 
     { 
       "name": "value", 
       "type": "DeviceMetricCategory-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"DeviceMetricOperationalStatus": {
-    /*Describes the operational status of the DeviceMetricIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "DeviceMetricOperationalStatus",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "DeviceMetricOperationalStatus-list" }, 
   ],
   "elems": [
   ]
@@ -12035,19 +12008,6 @@ The update period may be different than the measurement repetition time, if the 
       "isPrimitive": true }, 
   ]
 },
-"DeviceUseRequestStatus": {
-    /*Codes representing the status of the requestIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "DeviceUseRequestStatus",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "DeviceUseRequestStatus-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "DeviceUseRequestPriority": {
     /*Codes representing the priority of the requestIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -12057,6 +12017,19 @@ The update period may be different than the measurement repetition time, if the 
     { 
       "name": "value", 
       "type": "DeviceUseRequestPriority-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"DeviceUseRequestStatus": {
+    /*Codes representing the status of the requestIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "DeviceUseRequestStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "DeviceUseRequestStatus-list" }, 
   ],
   "elems": [
   ]
@@ -13553,19 +13526,6 @@ The update period may be different than the measurement repetition time, if the 
       "isPrimitive": false }, 
   ]
 },
-"EncounterLocationStatus": {
-    /*The status of the locationIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "EncounterLocationStatus",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "EncounterLocationStatus-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "EncounterClass": {
     /*Classification of the encounterIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -13575,6 +13535,19 @@ The update period may be different than the measurement repetition time, if the 
     { 
       "name": "value", 
       "type": "EncounterClass-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"EncounterLocationStatus": {
+    /*The status of the locationIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "EncounterLocationStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "EncounterLocationStatus-list" }, 
   ],
   "elems": [
   ]
@@ -15421,7 +15394,7 @@ The update period may be different than the measurement repetition time, if the 
       "type": "uri",
       "isPrimitive": true }, 
     { 
-    /*Body part examined. See  DICOM Part 16 Annex L for the mapping from DICOM to Snomed.
+    /*Body part examined. See  DICOM Part 16 Annex L for the mapping from DICOM to Snomed CT.
      */  "name": "bodySite", 
     
       "min": "0", 
@@ -16403,19 +16376,6 @@ The update period may be different than the measurement repetition time, if the 
       "isPrimitive": false }, 
   ]
 },
-"GuideDependencyType": {
-    /*How a dependency is represented when the guide is publishedIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "GuideDependencyType",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "GuideDependencyType-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "GuideResourcePurpose": {
     /*Why a resource is included in the guideIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -16425,6 +16385,19 @@ The update period may be different than the measurement repetition time, if the 
     { 
       "name": "value", 
       "type": "GuideResourcePurpose-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"GuideDependencyType": {
+    /*How a dependency is represented when the guide is publishedIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "GuideDependencyType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "GuideDependencyType-list" }, 
   ],
   "elems": [
   ]
@@ -16764,19 +16737,6 @@ The update period may be different than the measurement repetition time, if the 
       "isPrimitive": true }, 
   ]
 },
-"LocationStatus": {
-    /*Indicates whether the location is still in useIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "LocationStatus",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "LocationStatus-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "LocationMode": {
     /*Indicates whether a resource instance represents a specific location or a class of locationsIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -16786,6 +16746,19 @@ The update period may be different than the measurement repetition time, if the 
     { 
       "name": "value", 
       "type": "LocationMode-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"LocationStatus": {
+    /*Indicates whether the location is still in useIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "LocationStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "LocationStatus-list" }, 
   ],
   "elems": [
   ]
@@ -18688,19 +18661,6 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
       "isPrimitive": false }, 
   ]
 },
-"NamingSystemType": {
-    /*Identifies the purpose of the namingsystemIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "NamingSystemType",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "NamingSystemType-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "NamingSystemIdentifierType": {
     /*Identifies the style of unique identifier used to identify a namepaceIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -18710,6 +18670,19 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
     { 
       "name": "value", 
       "type": "NamingSystemIdentifierType-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"NamingSystemType": {
+    /*Identifies the purpose of the namingsystemIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "NamingSystemType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "NamingSystemType-list" }, 
   ],
   "elems": [
   ]
@@ -19334,7 +19307,7 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
       "type": "Observation.ReferenceRange",
       "isPrimitive": false }, 
     { 
-    /*A  reference to another resource ( usally another Observation but could  also be a QuestionnaireAnswer) whose relationship is defined by the relationship type code.
+    /*A  reference to another resource ( usually another Observation but could  also be a QuestionnaireAnswer) whose relationship is defined by the relationship type code.
      */  "name": "related", 
     
       "min": "0", 
@@ -19418,7 +19391,7 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
       "type": "ObservationRelationshipType",
       "isPrimitive": true }, 
     { 
-    /*A reference to the observation or questionnaireanswer that is related to this observation.
+    /*A reference to the observation or questionnaireanswer resource that is related to this observation.
      */  "name": "target", 
     
       "min": "1", 
@@ -19525,19 +19498,6 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
       "isPrimitive": false }, 
   ]
 },
-"ObservationStatus": {
-    /*Codes providing the status of an observationIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ObservationStatus",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "ObservationStatus-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "ObservationRelationshipType": {
     /*Codes specifying how two observations are relatedIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -19547,6 +19507,19 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
     { 
       "name": "value", 
       "type": "ObservationRelationshipType-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ObservationStatus": {
+    /*Codes providing the status of an observationIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ObservationStatus",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ObservationStatus-list" }, 
   ],
   "elems": [
   ]
@@ -21921,19 +21894,6 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
       "isPrimitive": true }, 
   ]
 },
-"ProcedureRequestPriority": {
-    /*The priority of the requestIf the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "ProcedureRequestPriority",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "ProcedureRequestPriority-list" }, 
-  ],
-  "elems": [
-  ]
-},
 "ProcedureRequestStatus": {
     /*The status of the requestIf the element is present, it must have either a @value, an @id, or extensions
      */
@@ -21943,6 +21903,19 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
     { 
       "name": "value", 
       "type": "ProcedureRequestStatus-list" }, 
+  ],
+  "elems": [
+  ]
+},
+"ProcedureRequestPriority": {
+    /*The priority of the requestIf the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ProcedureRequestPriority",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ProcedureRequestPriority-list" }, 
   ],
   "elems": [
   ]
@@ -25694,6 +25667,19 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
       "isPrimitive": false }, 
   ]
 },
+"ContentType": {
+    /*The content or mime type.If the element is present, it must have either a @value, an @id, or extensions
+     */
+  "name": "ContentType",
+  "base": "Element", 
+  "attrs": [
+    { 
+      "name": "value", 
+      "type": "ContentType-list" }, 
+  ],
+  "elems": [
+  ]
+},
 "AssertionDirectionType": {
     /*The type of direction to use for assertion.If the element is present, it must have either a @value, an @id, or extensions
      */
@@ -25703,19 +25689,6 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
     { 
       "name": "value", 
       "type": "AssertionDirectionType-list" }, 
-  ],
-  "elems": [
-  ]
-},
-"AssertionResponseTypes": {
-    /*The type of response code to use for assertion.If the element is present, it must have either a @value, an @id, or extensions
-     */
-  "name": "AssertionResponseTypes",
-  "base": "Element", 
-  "attrs": [
-    { 
-      "name": "value", 
-      "type": "AssertionResponseTypes-list" }, 
   ],
   "elems": [
   ]
@@ -25733,15 +25706,15 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
   "elems": [
   ]
 },
-"ContentType": {
-    /*The content or mime type.If the element is present, it must have either a @value, an @id, or extensions
+"AssertionResponseTypes": {
+    /*The type of response code to use for assertion.If the element is present, it must have either a @value, an @id, or extensions
      */
-  "name": "ContentType",
+  "name": "AssertionResponseTypes",
   "base": "Element", 
   "attrs": [
     { 
       "name": "value", 
-      "type": "ContentType-list" }, 
+      "type": "AssertionResponseTypes-list" }, 
   ],
   "elems": [
   ]
@@ -26630,7 +26603,8 @@ Specifically if 'boolean' datatype is selected, then the following logic applies
   ]
 },
   };
-      
+    
+    //
 /*
  *  Convert a JSON based FHIR object to an XML version of the same 
  */
@@ -26680,11 +26654,11 @@ this.getDef = function (
 this.processExtra = function (obj, def, name, depth)
 {
   /* TBD: Process Extensions */
-  var needsClose = false;
+  var needsSep = false;
   if ("id" in obj)
     this.out(" id=\"" + this.escapeAttr(obj.id) + "\"");
   
-  if (needsClose)
+  if (needsSep)
     this.out(this.pad(depth) + "</" + name + ">\n");
   else
     this.out("/>\n");
@@ -26829,6 +26803,8 @@ this.pad = function (length)
 };
 
 this.toJSON = function(obj) {
+
+	this.resetJSONState();
   if (typeof obj == "string")
   {
     parser=new DOMParser();
@@ -26838,11 +26814,118 @@ this.toJSON = function(obj) {
     throw "Argument is neither an XML node nor a string";
   
   this.reset();
+  this.resetJSONState();
   var def = this.getDef(obj.localName);
-  this.out("{\n");
+  this.startObject();
   this.processXML(obj, "", 0, def, false);
-  this.out("}\n");
+  this.endObject();
   return this.getResult();
+};
+
+this.STATE_VALUE = "value";
+this.STATE_PROP = "property";
+
+this.resetJSONState = function()
+{
+  this.stack = [];
+  this.state = {
+  		"type": "Array",
+  		"waiting": this.STATE_VALUE, // Waiting for a property
+  		"needsSep": false,
+  		"needsIndent": false
+  };
+  this.depth = 0;
+};
+
+this.doStart = function(name, type, lead, newWaiting)
+{
+	
+	if (name != null) 
+	 	this.setProperty(name);
+	else if (this.state.needsSep)
+		this.out(",");
+
+	// If we are waiting for a property, this is a problem
+	if (this.state.waiting == this.STATE_PROP)
+		throw "Cannot start " + type + " while waiting for a property.";
+	
+	if (this.state.needsIndent)
+		this.out("\n" + this.pad(this.depth));
+	else
+		this.state.needsIndent = true;
+	
+	this.out(lead);
+	this.state.needsSep = true;
+	this.stack.push(this.state);
+	this.state = { "type": type, "waiting": newWaiting, "needsSep": false, "needsIndent": true};
+	this.depth++;
+}
+
+// JSON Output Functions
+this.startArray = function(name)
+{
+	this.doStart(name, "Array", "[ ", this.STATE_VALUE);
+};
+
+this.startObject = function(name)
+{
+	this.doStart(name, "Object", "{ ", this.STATE_PROP);
+};
+
+this.doEnd = function(type, trail)
+{
+	// if the top of the stack doesn't indicate we have an open array, this is a problem
+	if (this.state.type != type)
+		throw type + " not started";
+
+	this.out("\n" + this.pad(--this.depth) + trail);
+  this.state = this.stack.pop();	
+  this.state.waiting = (this.state.type == "Object") ? this.STATE_PROP : this.STATE_VALUE;
+	this.state.needsSep = true;
+  this.state.needsIndent = true;
+};
+
+this.endArray = function() {
+	this.doEnd("Array","]");
+};
+
+this.endObject = function() {
+	this.doEnd("Object","}");
+};
+
+this.setProperty = function(name, value)
+{
+	// If we are waiting for a value, then this is an error
+	if (this.state.waiting == this.STATE_VALUE)
+		throw "Cannot set property inside a property or array";
+	
+	if (this.state.needsSep)
+	  this.out(",");
+
+	this.out("\n" + this.pad(this.depth) + "\"" + name + "\": ");
+	this.state.waiting = this.STATE_VALUE;
+	this.state.needsIndent = false;
+	this.state.needsSep = false;
+	
+	if (value != undefined)
+		this.setValue(value);
+};
+
+this.setValue = function(value)
+{
+	// if we are waiting for a property, this is a problem
+	if (this.state.waiting == this.STATE_PROP)
+		throw "A property value is expected";
+	
+	if (this.state.needsSep)
+		this.out(",");
+	if (this.state.needsIndent)
+		this.out("\n" + this.pad(this.depth));
+	
+	this.out(JSON.stringify(value));
+  this.state.waiting = (this.state.type == "Object") ? this.STATE_PROP : this.STATE_VALUE;
+	this.state.needsSep = true;
+  this.state.needsIndent = true;
 };
 
 this.processXML = function(elem, context, depth, def, isMultiple)
@@ -26854,14 +26937,11 @@ this.processXML = function(elem, context, depth, def, isMultiple)
   var elemName = elem.localName;
   
   if (!isResource)
-  {
-    this.out(this.pad(depth) + "\"" + elem.localName + "\": ");
-  }
+  	this.setProperty(elem.localName);
   
   if (isMultiple)
-  { this.out("[ \n");
-    ++ depth;
-  }
+    this.startArray();
+
   do
   {
     var comments = this.getPrecedingComments(elem);
@@ -26869,39 +26949,40 @@ this.processXML = function(elem, context, depth, def, isMultiple)
     if (this.isEmptyElem(elem))
     { if (isMultiple)
         this.out(this.pad(depth));
-      this.out("\"" + elem.getAttribute("value") + "\", \n");
+      this.setValue(elem.getAttribute("value"));
       
       if (comments != null)
-      { this.out(this.pad(depth++) + "\"_" + elemName + "\": {\n");
-        this.out(this.pad(depth++) + "\"fhir_comments\": [\n");
+      { this.startObject("_" + elemName);
+        this.startArray("fhir_comments");
+        
         for (var k in comments)
-          this.out(this.pad(depth) + JSON.stringify(comments[k]) + ", \n");
-        this.out(this.pad(--depth) + "],\n");
+        	this.setValue(comments[k]);
+        
+        this.endArray();
         // TBD: Handle id here, and exensions?
-        this.out(this.pad(--depth) + "},\n");
+        this.endObject();
       }
     }
     else
     { if (!isResource)
-      { if (isMultiple)
-          this.out(this.pad(depth));
-        this.out("{ \n");
-        depth++;
-      }
+        this.startObject();
       
       if (comments != null)
-      { this.out(this.pad(depth++) + "\"fhir_comments\": [\n");
+      { 
+      	this.startArray("fhir_comments");
+      	
         for (var k in comments)
-          this.out(this.pad(depth) + JSON.stringify(comments[k]) + ", \n");
-        this.out(this.pad(--depth) + "],\n");
+          this.setValue(comments[k]);
+        
+        this.endArray();
       }
 
       var url = elem.getAttribute("url")
       if (url != null)
-        this.out(this.pad(depth) + "\"url\":\"" + url + "\", \n");
+    		this.setProperty("url", url);
         
       if (isResource)
-        this.out(this.pad(depth+1) + "\"resourceType\":\"" + elemName + "\", \n");
+        this.setProperty("resourceType", elemName);
         
       var elem2 = elem.firstChild; 
       while (elem2 != null)
@@ -26911,7 +26992,7 @@ this.processXML = function(elem, context, depth, def, isMultiple)
         { if (elem2.localName == "div")
           { var serializer = new XMLSerializer();
             var div = serializer.serializeToString(elem2);
-            this.out(this.pad(depth) + "\"div\":" + JSON.stringify(div) + ", \n");
+            this.setProperty("div",div);
             elem2 = this.getNextElement(elem2);
           }
           else
@@ -26924,17 +27005,16 @@ this.processXML = function(elem, context, depth, def, isMultiple)
       }
       
       if (!isResource)
-        this.out(this.pad(--depth) + "}, \n");
+        this.endObject();
     }
     elem = this.getNextElement(elem);
   } while (isMultiple && elem != null && elemName == elem.localName);
   
   if (isMultiple)
-    this.out(this.pad(--depth) + "], \n");
+    this.endArray();
     
   return elem;
 };
-
 
 this.getXMLDef = function(def, name)
 {
@@ -27008,6 +27088,7 @@ this.isSingleton = function(elem, def)
     return false;
   return true;  // Should actually be looking at types   
 };
-}
+//
 
     
+}
