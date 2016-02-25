@@ -1,0 +1,51 @@
+{
+  "resourceType": "Patient",
+  "identifier": [
+    {
+      "use": "usual",
+      "assigner": "US",
+      "type": {
+        "coding": [
+          {
+            "code": "chcss",
+            "display": "chcss"
+          }
+        ],
+        "text": "777777777"
+      },
+      "value": "777777777"
+    }
+  ],
+  "name": {
+    "use": "usual",
+    "family": [
+      "BUNNY"
+    ],
+    "given": [
+      "BUGS DOC"
+    ]
+  },
+  "gender": "male",
+  "birthDate": "01-01-1990",
+  "address": [
+    {
+      "type": "postal",
+      "line": [
+        "8584 CHINA BERRY CIRCLE"
+      ],
+      "city": "HIGHWOOD",
+      "state": "ME",
+      "country": "USA"
+    }
+  ],
+  "maritalStatus": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/marital-status",
+        "code": "D",
+        "display": "D"
+      }
+    ],
+    "text": "D"
+  }
+}
