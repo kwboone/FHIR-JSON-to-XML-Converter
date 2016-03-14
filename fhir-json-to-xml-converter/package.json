@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A JSON->XML converter for HL7 FHIR",
   "scripts": {
-    "test": "./node_modules/.bin/mocha test"
+    "test": "./node_modules/.bin/mocha fhir-json-to-xml-converter/test"
   },
   "repository": {
     "type": "git",

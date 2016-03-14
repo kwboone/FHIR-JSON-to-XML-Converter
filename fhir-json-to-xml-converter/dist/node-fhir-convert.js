@@ -26618,9 +26618,13 @@ this.toXML = function (
     obj = JSON.parse(obj);
     
   this.reset();
-  this.out("<?xml version='1.0' encoding='UTF-8'?>\n");
+  var processingInstruction = "<?xml version='1.0' encoding='UTF-8'?>\n";
+  this.out(processingInstruction);
   this.processChildren(obj, 0, null, this.getDef(obj.resourceType), obj.resourceType);
-  return this.getResult();
+  var result = this.getResult();
+  result = processingInstruction +
+      result.substring(processingInstruction.length).replace(/<(.+)>/m, '<$1 xmlns="http://h7.org/fhir">');
+  return result;
 };
 
 /* Escape values for & < ' > */ 
