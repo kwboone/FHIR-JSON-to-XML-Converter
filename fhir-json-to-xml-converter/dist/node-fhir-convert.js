@@ -26622,8 +26622,7 @@ this.toXML = function (
   this.out(processingInstruction);
   this.processChildren(obj, 0, null, this.getDef(obj.resourceType), obj.resourceType);
   var result = this.getResult();
-  result = processingInstruction +
-      result.substring(processingInstruction.length).replace(/<(.+)>/m, '<$1 xmlns="http://h7.org/fhir">');
+  result = processingInstruction + result.substring(processingInstruction.length).replace(/<(.+)>/m, '<$1 xmlns="http://h7.org/fhir">');
   return result;
 };
 
