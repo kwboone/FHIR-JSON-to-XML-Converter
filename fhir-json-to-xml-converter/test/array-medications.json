@@ -1,0 +1,63 @@
+[{
+  "resourceType": "MedicationDispense",
+  "identifier": {
+    "use": "usual",
+    "type": {
+      "coding": {
+        "system": "chcs",
+        "code": "chcss:Medication_Profile-8810_3",
+        "assigner": "US"
+      },
+      "text": "Medication Profile"
+    }
+  },
+  "medicationReference": {
+    "reference": "medication-8810_3",
+    "display": "ZR-GABAPENTIN (NEURONTIN)--PO 250MG/5ML "
+  },
+  "patient": {
+    "reference": "2-1000001",
+    "display": "BUNNY,BUGS"
+  },
+  "dispenser": {
+    "display": "COYOTE, WILE E"
+  },
+  "whenHandedOver": "1990-08-23T12:00:00",
+  "dosageInstruction": [
+    {
+      "text": "RX: "
+    }
+  ]
+},
+  {
+    "resourceType": "MedicationDispense",
+    "identifier": {
+      "use": "usual",
+      "type": {
+        "coding": {
+          "system": "chcs",
+          "code": "chcss:Medication_Profile-8810_3",
+          "assigner": "US"
+        },
+        "text": "Medication Profile"
+      }
+    },
+    "medicationReference": {
+      "reference": "medication-8810_3",
+      "display": "ZR-GABAPENTIN (NEURONTIN)--PO 250MG/5ML "
+    },
+    "patient": {
+      "reference": "2-1000001",
+      "display": "BUNNY,BUGS"
+    },
+    "dispenser": {
+      "display": "COYOTE, WILE E"
+    },
+    "whenHandedOver": "1990-08-23T12:00:00",
+    "dosageInstruction": [
+      {
+        "text": "RX: "
+      }
+    ]
+  }
+]

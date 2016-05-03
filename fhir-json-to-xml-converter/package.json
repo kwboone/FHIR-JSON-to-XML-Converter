@@ -1,0 +1,33 @@
+{
+  "name": "fhir-json-to-xml-converter",
+  "version": "0.0.1",
+  "description": "A JSON->XML converter for HL7 FHIR",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha fhir-json-to-xml-converter/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcarifio/FHIR-JSON-to-XML-Converter.git"
+  },
+  "author": "Keith W. Boone",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "bugs": {
+    "url": "https://github.com/mcarifio/FHIR-JSON-to-XML-Converter/issues"
+  },
+  "homepage": "https://github.com/mcarifio/FHIR-JSON-to-XML-Converter#readme",
+  "dependencies": {
+    "commander": "^2.9.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  },
+  "main": "dist/node-fhir-convert.js",
+  "keywords": [
+    "fhir",
+    "json",
+    "xml",
+    "rdf",
+    "medical"
+  ]
+}
